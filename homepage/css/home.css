@@ -1,0 +1,92 @@
+/* Reset and base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #caf0f8, #ade8f4, #90e0ef);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+  color: #333;
+}
+
+/* Header */
+h1 {
+  font-size: 42px;
+  color: white;
+  text-align: center;
+  padding: 20px 30px;
+  background: linear-gradient(135deg, #0077b6, #00b4d8);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  border-radius: 14px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 25px;
+}
+
+/* Main paragraph */
+#main-text {
+  font-size: 18px;
+  color: #222;
+  background-color: #ffffffd9;
+  padding: 20px;
+  border-left: 6px solid #00b4d8;
+  border-radius: 10px;
+  max-width: 800px;
+  line-height: 1.7;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+/* Logo */
+.logo-container {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.logo { 
+  width: 150px;
+  height: auto;
+  transition: transform 0.3s ease;
+}
+
+.logo:hover {
+  transform: scale(1.3);
+}
+
+.logo-caption {
+  font-style: italic;
+  margin-top: 10px;
+  color: #0077b6;
+  font-weight: 500;
+}
+
+/* Signup / Login Buttons */
+.signlogin {
+  text-align: center;
+}
+
+.signlogin a {
+  display: inline-block;
+  margin: 10px;
+  padding: 12px 25px;
+  text-decoration: none;
+  color: white;
+  background-color: #00b4d8;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 16px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.signlogin a:hover {
+  background-color: #0077b6;
+  transform: translateY(-2px);
+}

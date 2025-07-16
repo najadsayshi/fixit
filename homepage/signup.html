@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Create Account</title>
+  <link rel="stylesheet" href="css/signup.css" />
+</head>
+<body>
+
+  <!-- Back to Home Button -->
+  <a href="/homepage/home.html" class="back-button">← Back to Home</a>
+
+  <div class="signup-box">
+    <h1>Create Your Account</h1>
+    
+    <input type="text" id="fullname" placeholder="Full Name" />
+    <input type="text" id="email" placeholder="Email Address" />
+    <input type="text" id="username" placeholder="Username" />
+
+    <!-- Password field with toggle -->
+    <div class="password-wrapper">
+      <input type="password" id="password" placeholder="Password" />
+      <span class="toggle-eye" onclick="togglePassword('password', this)">👁️</span>
+    </div>
+
+    <div class="password-wrapper">
+      <input type="password" id="confirm-password" placeholder="Confirm Password" />
+      <span class="toggle-eye" onclick="togglePassword('confirm-password', this)">👁️</span>
+    </div>
+
+    <!-- Location field -->
+    <input type="text" id="location" placeholder="Detecting location..." />
+
+    <button>Create Account</button>
+  </div>
+
+  <!-- Toggle Password Script -->
+  <script>
+    function togglePassword(id, el) {
+      const input = document.getElementById(id);
+      input.type = input.type === "password" ? "text" : "password";
+      el.textContent = input.type === "password" ? "👁️" : "🙈";
+    }
+  </script>
+
+  <!-- Auto Location Fetch Script -->
+  <script>
+    window.onload = () => {
+      if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+
+            fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`)
+              .then(response => response.json())
+              .then(data => {
+                const locationInput = document.getElementById("location");
+                const city = data.address.city || data.address.town || data.address.village || "";
+                const state = data.address.state || "";
+                const country = data.address.country || "";
+                locationInput.value = `${city}, ${state}, ${country}`;
+              })
+              .catch(() => {
+                document.getElementById("location").placeholder = "Enter location manually";
+              });
+          },
+          () => {
+            document.getElementById("location").placeholder = "Enter location manually";
+          }
+        );
+      } else {
+        document.getElementById("location").placeholder = "Enter location manually";
+      }
+    };
+  </script>
+
+  <!-- Send Data to Backend -->
+  <script>
+    const signupButton = document.querySelector("button");
+
+    signupButton.addEventListener("click", () => {
+      const fullName = document.getElementById("fullname").value;
+      const email = document.getElementById("email").value;
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+      const confirmPassword = document.getElementById("confirm-password").value;
+      const location = document.getElementById("location").value;
+
+      if (password !== confirmPassword) {
+        alert("❌ Passwords do not match!");
+        return;
+      }
+
+      fetch("http://localhost:3000/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ fullName, email, username, password, location }),
+      })
+      .then(res => res.json())
+      .then(data => {
+        alert(data.message);
+      })
+      .catch(err => {
+        alert("❌ Failed to connect to server!");
+        console.error(err);
+      });
+    });
+  </script>
+
+</body>
+</html>
